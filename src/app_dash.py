@@ -1,6 +1,7 @@
 import os
 # We start with the import of standard ML librairies
 import pandas as pd
+from src.data_processing import make_full_pipeline
 import math
 from joblib import load
 #from src.data_processing import make_full_pipeline
