@@ -18,7 +18,7 @@ DATA_PATH = os.path.join(HOME_PATH, 'data')
 MODELS_PATH = os.path.join(HOME_PATH, 'model')
 ASSETS_PATH = os.path.join(HOME_PATH, 'assets')
 
-df = pd.read_csv(os.path.join(r'C:\Users\PRIYANKA\Desktop\DAAA\data', "Disease Prediction Training.csv"))
+df = pd.read_csv(r'C:\Users\PRIYANKA\Desktop\DAAA\data\Disease Prediction Training.csv')
 
 df.info()
 
