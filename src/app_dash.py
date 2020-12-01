@@ -13,16 +13,16 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-HOME_PATH = r'C:\Users\PRIYANKA\Desktop\DAAA'
+HOME_PATH = r'C:/Users/PRIYANKA/Desktop/DAAA'
 DATA_PATH = os.path.join(HOME_PATH, 'data')
 MODELS_PATH = os.path.join(HOME_PATH, 'model')
 ASSETS_PATH = os.path.join(HOME_PATH, 'assets')
 
-df = pd.read_csv(r'C:\Users\PRIYANKA\Desktop\DAAA\data\Disease Prediction Training.csv')
+df = pd.read_csv('C:/Users/PRIYANKA/Desktop/DAAA/data/Disease Prediction Training.csv')
 
 df.info()
 
-sk_best = load(os.path.join(r'C:\Users\PRIYANKA\Desktop\DAAA', 'best.joblib'))
+sk_best = load(os.path.join(r'C:/Users/PRIYANKA/Desktop/DAAA', 'best.joblib'))
 
 cats = [var for var, var_type in df.dtypes.items() if var_type=='object']
 # numerical features
