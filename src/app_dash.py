@@ -1,10 +1,9 @@
 import os
 # We start with the import of standard ML librairies
 import pandas as pd
-from src.data_processing import make_full_pipeline
 import math
 from joblib import load
-#from src.data_processing import make_full_pipeline
+from data_processing import make_full_pipeline1
 import pickle
 # We add all Plotly and Dash necessary librairies
 import dash
@@ -13,30 +12,40 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-HOME_PATH = r'C:/Users/PRIYANKA/Desktop/DAAA'
+HOME_PATH = os.getcwd()
 DATA_PATH = os.path.join(HOME_PATH, 'data')
 MODELS_PATH = os.path.join(HOME_PATH, 'model')
 ASSETS_PATH = os.path.join(HOME_PATH, 'assets')
 
-df = pd.read_csv('C:/Users/PRIYANKA/Desktop/DAAA/data/Disease Prediction Training.csv')
+DP_train = pd.read_csv(os.path.join(DATA_PATH, "Disease Prediction Training.csv"))
+sk_best = load(os.path.join(MODELS_PATH, 'best.joblib'))
 
-df.info()
+#full_pipeline = load(os.path.join(MODELS_PATH, 'transformer.joblib'))
+full_pipeline = make_full_pipeline1(DP_train)
+ohe_path = os.path.join(MODELS_PATH, 'ohe_categories.pkl')
+perfs_path = os.path.join(MODELS_PATH, 'sk_best_performances.pkl')
 
-sk_best = load(os.path.join(r'C:/Users/PRIYANKA/Desktop/DAAA', 'best.joblib'))
+with open(ohe_path, 'rb') as input:
+    ohe_categories = pickle.load(input)
 
-cats = [var for var, var_type in df.dtypes.items() if var_type=='object']
-# numerical features
-nums = [var for var in df.columns if var not in cats]
-num = nums.remove('Disease')
+categories = []
+for k, l in ohe_categories.items():
+    categories.append([f'{k}_{cat}' for cat in list(l)])
+flatten = lambda l: [item for sublist in l for item in sublist]
+categories = flatten(categories)
 
-cats
+with open(perfs_path, 'rb') as input:
+    perfs = pickle.load(input)
+# scaling
 
-nums
+cats = [var for var, var_type in DP_train.dtypes.items() if var_type == 'object']
+nums = [var for var in DP_train.columns if var not in cats]
+nums.remove('Disease')
 
 TOP = 10
 # We create a DataFrame to store the features' importance and their corresponding label
 df_feature_importances = pd.DataFrame(sk_best.feature_importances_ * 100, columns=["Importance"],
-                                      index=nums + cats)
+                                      index=nums + categories)
 df_feature_importances = df_feature_importances.sort_values("Importance", ascending=False)
 df_feature_importances = df_feature_importances.loc[df_feature_importances.index[:TOP]]
 
@@ -47,12 +56,6 @@ fig_features_importance.add_trace(go.Bar(x=df_feature_importances.index,
                                          marker_color='rgb(171, 226, 251)')
                                   )
 fig_features_importance.update_layout(title_text='<b>Features Importance of the model<b>', title_x=0.5)
-
-
-perfs_path = os.path.join(r'C:\Users\PRIYANKA\Desktop\DAAA', 'sk_best_performances.pkl')
-
-with open(perfs_path, 'rb') as input:
-    perfs = pickle.load(input)
 
 # We create a Features perfomances Bar Chart
 fig_perfs = go.Figure()
@@ -88,12 +91,15 @@ for var in nums:
         marks={i: '{}°'.format(i) for i in
                range(int(desc['min']), int(desc['max']) + 1, max(int((desc['std'] / 1.5)), 1))}
     ))
+# The command below can be activated in a standard notebook to display the chart
+# fig_features_importance.show()
+
 
 app = dash.Dash(__name__,
 # external CSS stylesheets
  external_stylesheets = [
      #"https://raw.githack.com/Athena75/IBM-Customer-Value-Dashboarding/main/assets/style.css",
-     "https://github.com/Priyankareddy0308/Demo1/blob/main/Assets/Style.css"
+     "https://rawcdn.githack.com/Athena75/IBM-Customer-Value-Dashboarding/df971ae38117d85c8512a72643ce6158cde7a4eb/assets/style.css"
  ]
 )
 
@@ -123,6 +129,7 @@ app.layout = html.Div(children=[
         className='row')
 ]
 )
+
 
 # The callback function will provide one "Output" in the form of a string (=children)
 @app.callback(Output(component_id="prediction_result", component_property="children"),
