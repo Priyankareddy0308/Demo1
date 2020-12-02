@@ -63,7 +63,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-HOME_PATH = os.getcwd()
+HOME_PATH = "C:/Users/PRIYANKA/Desktop/Demo1-main/src"
 DATA_PATH = os.path.join(HOME_PATH, 'data')
 MODELS_PATH = os.path.join(HOME_PATH, 'model')
 ASSETS_PATH = os.path.join(HOME_PATH, 'assets')
