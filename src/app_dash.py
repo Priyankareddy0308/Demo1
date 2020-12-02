@@ -73,17 +73,17 @@ sk_best = load(os.path.join(MODELS_PATH, 'best.joblib'))
 
 #full_pipeline = load(os.path.join(MODELS_PATH, 'transformer.joblib'))
 full_pipeline = make_full_pipeline1(DP_train)
-ohe_path = os.path.join(MODELS_PATH, 'ohe_categories.pkl')
+#ohe_path = os.path.join(MODELS_PATH, 'ohe_categories.pkl')
 perfs_path = os.path.join(MODELS_PATH, 'sk_best_performances.pkl')
 
-with open(ohe_path, 'rb') as input:
-    ohe_categories = pickle.load(input)
+#with open(ohe_path, 'rb') as input:
+    #ohe_categories = pickle.load(input)
 
-categories = []
-for k, l in ohe_categories.items():
-    categories.append([f'{k}_{cat}' for cat in list(l)])
-flatten = lambda l: [item for sublist in l for item in sublist]
-categories = flatten(categories)
+#categories = []
+#for k, l in ohe_categories.items():
+    #categories.append([f'{k}_{cat}' for cat in list(l)])
+#flatten = lambda l: [item for sublist in l for item in sublist]
+#categories = flatten(categories)
 
 with open(perfs_path, 'rb') as input:
     perfs = pickle.load(input)
@@ -96,7 +96,7 @@ nums.remove('Disease')
 TOP = 10
 # We create a DataFrame to store the features' importance and their corresponding label
 df_feature_importances = pd.DataFrame(sk_best.feature_importances_ * 100, columns=["Importance"],
-                                      index=nums + categories)
+                                      index=nums + cats)
 df_feature_importances = df_feature_importances.sort_values("Importance", ascending=False)
 df_feature_importances = df_feature_importances.loc[df_feature_importances.index[:TOP]]
 
