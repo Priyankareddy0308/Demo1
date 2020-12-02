@@ -120,7 +120,7 @@ fig_perfs.update_layout(title_text='<b>Best Model Performances<b>', title_x=0.5)
 cat_children = []
 for var in cats:
     # Categorical children
-    sorted_modalities = list(df[var].value_counts().index)
+    #sorted_modalities = list(df[var].value_counts().index)
     cat_children.append(html.H4(children=var))
     cat_children.append(dcc.Dropdown(
         id='{}-dropdown'.format(var),
