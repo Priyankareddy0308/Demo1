@@ -120,7 +120,7 @@ fig_perfs.update_layout(title_text='<b>Best Model Performances<b>', title_x=0.5)
 cat_children = []
 for var in cats:
     # Categorical children
-    #sorted_modalities = list(df[var].value_counts().index)
+    sorted_modalities = list(DP_train[var].value_counts().index)
     cat_children.append(html.H4(children=var))
     cat_children.append(dcc.Dropdown(
         id='{}-dropdown'.format(var),
@@ -132,7 +132,7 @@ linear_children = []
 for var in nums:
     # linear children
     linear_children.append(html.H4(children=var))
-    desc = df[var].describe()
+    desc = DP_train[var].describe()
     linear_children.append(dcc.Slider(
         id='{}-dropdown'.format(var),
         min=math.floor(desc['min']),
