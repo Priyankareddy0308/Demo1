@@ -188,7 +188,7 @@ app.layout = html.Div(children=[
                  className='column'),
         # second column : fig performances categorical
         html.Div(children=[dcc.Graph(figure=fig_perfs, className='graph')] + cat_children,
-                 className='column')
+                 className='column'),
         #
         html.Div(children=[dcc.Graph(figure=fig_perfs, className='graph')] + DT,
                  className='column')
