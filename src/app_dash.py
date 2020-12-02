@@ -68,7 +68,7 @@ DATA_PATH = os.path.join(HOME_PATH, 'data')
 MODELS_PATH = os.path.join(HOME_PATH, 'model')
 ASSETS_PATH = os.path.join(HOME_PATH, 'assets')
 
-DP_train = pd.read_csv('../data/Customer-Value-Analysis.csv')
+DP_train = pd.read_csv('../data/Disease Prediction Training.csv')
 sk_best = load(os.path.join(MODELS_PATH, 'best.joblib'))
 
 #full_pipeline = load(os.path.join(MODELS_PATH, 'transformer.joblib'))
