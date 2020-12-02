@@ -21,10 +21,10 @@ class FeatureSelector(BaseEstimator, TransformerMixin):
     def transform(self, X, y=None):
         return X[self._feature_names].values
 
-def make_full_pipeline(df):
+def make_full_pipeline1(DP_train):
     #df = pd.read_csv('../data/Customer-Value-Analysis.csv').set_index('Customer')
-    X = df.drop(['Response'], axis=1)
-    y = df.Response.apply(lambda X: 0 if X == 'No' else 1)
+    X = DP_train.drop(['Disease'], axis=1)
+    #y = DP_train.Response.apply(lambda X: 0 if X == 'No' else 1)
 
     cats = [var for var, var_type in X.dtypes.items() if var_type == 'object']
     nums = [var for var in X.columns if var not in cats]
