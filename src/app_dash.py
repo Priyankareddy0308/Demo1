@@ -24,7 +24,7 @@ class FeatureSelector(BaseEstimator, TransformerMixin):
 def make_full_pipeline1(DP_train):
     #df = pd.read_csv('../data/Customer-Value-Analysis.csv').set_index('Customer')
     X = DP_train.drop(['Disease'], axis=1)
-    #y = DP_train.Response.apply(lambda X: 0 if X == 'No' else 1)
+    y = DP_train['Disease']
 
     cats = [var for var, var_type in X.dtypes.items() if var_type == 'object']
     nums = [var for var in X.columns if var not in cats]
@@ -43,7 +43,7 @@ def make_full_pipeline1(DP_train):
     full_pipeline = FeatureUnion(transformer_list=[('num_pipeline', num_pipeline),
                                                    ('cat_pipeline', cat_pipeline)]
                                  )
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
     # fit and transform the custom transformer in train
     _ = full_pipeline.fit_transform(X_train)
     return full_pipeline
