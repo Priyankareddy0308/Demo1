@@ -143,18 +143,6 @@ for var in nums:
                range(int(desc['min']), int(desc['max']) + 1, max(int((desc['std'] / 1.5)), 1))}
     ))
     
-DT = []
-var = grid.best_estimator_
-for hps, values in grid.best_params_.items():
-    # linear children
-    DT.append(html.H4(children=(hps, values)))
-    DT.append(dcc.Slider(
-        id='{}-dropdown'.format(values),
-        min=1,
-        max=10,
-        step=1,
-        value=4
-    ))
 # The command below can be activated in a standard notebook to display the chart
 # fig_features_importance.show()
 
@@ -188,10 +176,8 @@ app.layout = html.Div(children=[
                  className='column'),
         # second column : fig performances categorical
         html.Div(children=[dcc.Graph(figure=fig_perfs, className='graph')] + cat_children,
-                 className='column'),
-        #
-        html.Div(children=[dcc.Graph(figure=fig_perfs, className='graph')] + DT,
                  className='column')
+        
     ],
              
         className='row')
